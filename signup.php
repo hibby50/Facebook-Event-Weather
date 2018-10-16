@@ -6,14 +6,7 @@ error_reporting(E_ALL);
 
 $user = $_POST["user"];
 $password = $_POST["password"];
-
-/*if (mysqli_num_rows($result) > 0) {
-    echo "Login Success";
-    }
-    else{
-    echo "<img src='giphy.gif' alt='WRONG'>";
-    }
-*/
+$email = $_POST["email"];
 
 require_once('path.inc');
 require_once('get_host_info.inc');
@@ -30,9 +23,10 @@ else
 }
 
 $request = array();
-$request['type'] = "login";
+$request['type'] = "signup";
 $request['username'] = $user;
 $request['password'] = $password;
+$request['email'] = $email;
 //$request['message'] = $msg;
 $response = $client->send_request($request);
 //$response = $client->publish($request);
