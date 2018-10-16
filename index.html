@@ -1,27 +1,10 @@
-<!doctype html>
-<html lang="en">
+<form action="login.php" method="post">
+    <label for="user"><b>Username></b></label>
+    <input type="text" placeholder="Enter Username" name="user"
+required>
 
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <title>Login</title>
-</head>
-
-<body>
-
-<h1>LOGIN</h1>
-
-<!-- FORM -->
-  <form action="login.php" method="post">
-    <label for="user"><b>Username</b><br></label>
-    <input type="text" placeholder="Enter Username" name="user" required>
-
-    <label for="pass"><br><br><b>Password</b><br></label>
-    <input type="password" placeholder="Enter Password" name="password" required><br><br>
+    <label for="pass"><b>Password</b></label>
+    <input type="password" placeholder="Enter Password" name="password"
+required>
 
     <button type="submit">Login</button>
-  </form>
-<!-- END FORM -->
-
-</body>
-</html>
