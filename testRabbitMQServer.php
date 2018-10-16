@@ -22,9 +22,32 @@ function doLogin($username,$password)
 
 	$result = mysqli_query($db,"SELECT username, password FROM users WHERE `username` = '".$username."' AND `password`= '".$password."'");
 
-	echo "number of rows returned:".mysqli_num_rows($result).PHP_EOL;
-
 	if (mysqli_num_rows($result) > 0)
+	{
+	    return true;
+	}
+
+	return false;
+}
+
+function doSignUp($username,$password,$email)
+{
+
+	$db = mysqli_connect("127.0.0.1", "test", "1234", "test");
+
+	if(!$db)
+	{
+		echo "Error: unable to connect to mysql" . PHP_EQL;
+		echo "Debugging errno: " . mysqli_connect_error() . PHP_EOL;
+		echo "Debugging error: " . mysqli_connect_error() . PHP_EOL;
+		return false;
+	}
+
+	$result = mysqli_query($db,"INSERT INTO users (username,password,email) VALUES ('".$username."', '".$password."', '".$email."')");
+
+	echo $result;
+
+	if ($result)
 	{
 	    return true;
 	}
@@ -44,6 +67,8 @@ function requestProcessor($request)
   {
     case "login":
       return doLogin($request['username'],$request['password']);
+    case "signup";
+        return doSignUp($request['username'],$request['password'],$request['email']);
     case "validate_session":
       return doValidate($request['sessionId']);
   }
