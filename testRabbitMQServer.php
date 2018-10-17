@@ -6,8 +6,10 @@ require_once('rabbitMQLib.inc');
 
 function doLogin($username,$password)
 {
-    $username = mysqli_real_escape_string($con, $_POST['username']); 
-    $password = mysqli_real_escape_string($con, $_POST['password']);
+    $db = mysqli_connect("127.0.0.1", "test", "1234", "test");
+    
+    $username = mysqli_real_escape_string($db, $username); 
+    $password = mysqli_real_escape_string($db, $password);
     
     mysqli_real_escape_string($con, $_POST['username']);
 
@@ -33,6 +35,10 @@ function doSignUp($username,$password,$email)
 {
 
 	$db = mysqli_connect("127.0.0.1", "test", "1234", "test");
+	
+    $username = mysqli_real_escape_string($db, $username); 
+    $password = mysqli_real_escape_string($db, $password);
+    $email = mysqli_real_escape_string($db, $email);
 
 	if(!$db)
 	{
