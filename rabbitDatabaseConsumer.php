@@ -6,7 +6,7 @@ require_once('rabbitMQLib.inc');
 
 ini_set("log_errors", 1);
 ini_set("error_log", "/tmp/databaseRabbit.log");
-error_log("test 1 2 test 1 2");
+error_log("log init");
 
 function doLogin($username,$password)
 {
