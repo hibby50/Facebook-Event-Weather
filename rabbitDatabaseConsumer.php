@@ -4,6 +4,10 @@ require_once('path.inc');
 require_once('get_host_info.inc');
 require_once('rabbitMQLib.inc');
 
+ini_set("log_errors", 1);
+ini_set("error_log", "/tmp/databaseRabbit.log");
+error_log("log init");
+
 function doLogin($username,$password)
 {
     $db = mysqli_connect("127.0.0.1", "test", "1234", "test");
@@ -47,6 +51,13 @@ function doSignUp($username,$password,$email)
 		echo "Debugging error: " . mysqli_connect_error() . PHP_EOL;
 		return false;
 	}
+	
+	$checkIfExists = mysqli_query($db,"SELECT username FROM users WHERE `username` = '".$username."'");
+
+	if (mysqli_num_rows($checkIfExists) > 0)
+	{
+	    return false;
+	}
 
 	$result = mysqli_query($db,"INSERT INTO users (username,password,email) VALUES ('".$username."', '".$password."', '".$email."')");
 
@@ -56,8 +67,7 @@ function doSignUp($username,$password,$email)
 	{
 	    return true;
 	}
-
-	return false;
+return false;
 }
 
 function requestProcessor($request)
