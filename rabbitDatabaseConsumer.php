@@ -21,11 +21,11 @@ function doLogin($username,$password)
 	if(!$db)
 	{
 		$error = "Error: unable to connect to mysql" . PHP_EQL;
-		dolog($error);
+		doLog($error);
 		$error = "Debugging errno: " . mysqli_connect_error() . PHP_EOL;
-		dolog($error);
+		doLog($error);
 		$error = "Debugging error: " . mysqli_connect_error() . PHP_EOL;
-		dolog($error);
+		doLog($error);
 		return false;
 	}
 
