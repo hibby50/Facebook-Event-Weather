@@ -23,6 +23,8 @@ $result = mysqli_query($db,"SELECT username, password FROM users WHERE `username
 
 if (mysqli_num_rows($result) > 0) {
     echo "Login Success";
+	session_start(); //new line
+	$_SESSION["user"] = $_POST["user"]; //new line
     }
     else{
     echo "<img src='giphy.gif' alt='WRONG'>";
