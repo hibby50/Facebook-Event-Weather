@@ -3,6 +3,7 @@
 require_once('path.inc');
 require_once('get_host_info.inc');
 require_once('rabbitMQLib.inc');
+require_once('logProducer.php');
 
 ini_set("log_errors", 1);
 ini_set("error_log", "/tmp/databaseRabbit.log");
@@ -19,9 +20,12 @@ function doLogin($username,$password)
 
 	if(!$db)
 	{
-		echo "Error: unable to connect to mysql" . PHP_EQL;
-		echo "Debugging errno: " . mysqli_connect_error() . PHP_EOL;
-		echo "Debugging error: " . mysqli_connect_error() . PHP_EOL;
+		$error = "Error: unable to connect to mysql" . PHP_EQL;
+		doLog($error);
+		$error = "Debugging errno: " . mysqli_connect_error() . PHP_EOL;
+		doLog($error);
+		$error = "Debugging error: " . mysqli_connect_error() . PHP_EOL;
+		doLog($error);
 		return false;
 	}
 
@@ -90,7 +94,7 @@ function requestProcessor($request)
   return array("returnCode" => '0', 'message'=>"Server received request and processed");
 }
 
-$server = new rabbitMQServer("testRabbitMQ.ini","testServer");
+$server = new rabbitMQServer("rabbitDatabaseConsumer.ini","testServer");
 
 $server->process_requests('requestProcessor');
 exit();
