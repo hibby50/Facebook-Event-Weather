@@ -12,7 +12,7 @@ require_once('path.inc');
 require_once('get_host_info.inc');
 require_once('rabbitMQLib.inc');
 
-$client = new rabbitMQClient("testRabbitMQ.ini","testServer");
+$client = new rabbitMQClient("rabbitDatabaseConsumer.ini","testServer");
 if (isset($argv[1]))
 {
   $msg = $argv[1];
@@ -41,8 +41,6 @@ if ($response == 1){
 else{
     echo "login failure" . "<img src='/giphy.gif' alt='error'>";
 }
-
-echo $argv[0]." END".PHP_EOL;
 
 ?>
 
