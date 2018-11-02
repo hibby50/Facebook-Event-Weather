@@ -88,7 +88,7 @@ $db = mysqli_connect("127.0.0.1", "test", "1234", "test");
 		return false;
 	}
 
-	$result = mysqli_query($db,"INSERT INTO tokens (user,fb) SELECT * FROM (SELECT '".$user."') AS tmp WHERE NOT EXISTS (SELECT user FROM tokens WHERE user='$user'");
+	$result = mysqli_query($db,"INSERT INTO tokens (user,fb) VALUES ('".$user."', '".$token."') ON DUPLICATE KEY UPDATE user='updated'");
 }
 
 function requestProcessor($request)
@@ -108,7 +108,7 @@ function requestProcessor($request)
     case "validate_session":
       return doValidate($request['sessionId']);
     case "facebookToken":
-        return storeToken($request['token']);
+        return storeToken($request['fbID'],$request['token']);
   }
   return array("returnCode" => '0', 'message'=>"Server received request and processed");
 }
