@@ -74,6 +74,23 @@ function doSignUp($username,$password,$email)
 return false;
 }
 
+function storeToken($token)
+{
+$db = mysqli_connect("127.0.0.1", "test", "1234", "test");
+	if(!$db)
+	{
+		$error = "Error: unable to connect to mysql" . PHP_EQL;
+		doLog($error);
+		$error = "Debugging errno: " . mysqli_connect_error() . PHP_EOL;
+		doLog($error);
+		$error = "Debugging error: " . mysqli_connect_error() . PHP_EOL;
+		doLog($error);
+		return false;
+	}
+
+	$result = mysqli_query($db,"INSERT INTO tokens (user,fb) VALUES ('".$token."', '".$token."')");
+}
+
 function requestProcessor($request)
 {
   echo "received request".PHP_EOL;
@@ -90,6 +107,8 @@ function requestProcessor($request)
         return doSignUp($request['username'],$request['password'],$request['email']);
     case "validate_session":
       return doValidate($request['sessionId']);
+    case "facebookToken":
+        return storeToken($request['token']);
   }
   return array("returnCode" => '0', 'message'=>"Server received request and processed");
 }
@@ -99,4 +118,3 @@ $server = new rabbitMQServer("rabbitDatabaseConsumer.ini","testServer");
 $server->process_requests('requestProcessor');
 exit();
 ?>
-
