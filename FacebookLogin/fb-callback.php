@@ -42,19 +42,42 @@ if (!$accessToken->isLongLived())
   $response = $FB->get("/me?fields=id,name,events", $accessToken);
   $userData = $response->getGraphNode()->asArray();
   echo "<pre>";
-  var_dump($userData);
-  echo $accessToken;
 
-  $events=userData["events"];
-  $description=$events["description"];
-  $name==$events["name"];
-  //$startTime=$events["start_time"];
-  $rsvpStatus=$events["rsvp_status"];
-  $location=$events["location"];
-  $zip==location["zip"];
+  $events=$userData["events"];
   
-  $weather=getWeather($zip);
-  
+  $i = 0; /* for illustrative purposes only */
+
+  $parsedEvents = array();
+  foreach ($events as $info) {
+	  
+	  $description=$info["description"];
+	  $name=$info["name"];
+	  $rsvpStatus=$info["rsvp_status"];
+	  $place=$info["place"];
+	  $location = $place["location"];
+	  $latitude= (string) $location["latitude"];
+	  $longitude= (string)$location["longitude"];
+	  $zip= $location["zip"];
+
+	  $startTime=$info["start_time"];
+	  $startTime = $startTime->format('Y-m-d H:i:s');
+	  
+	  if (isset($zip)){
+
+	  	$weather=getWeather($latitude,$longitude);
+	}else{
+	$weather="No Location Data Available";
+	}
+
+	  $currEvent = array("description"=>$description,"name"=>$name,"startTime"=>$startTime,"rsvpStatus"=>$rsvpStatus,"latitude"=>$latitude,"longitude"=>$longitude,"zip"=>$zip,"weather"=>$weather);
+
+	  array_push($parsedEvents,$currEvent);
+
+	  $i++;
+}
+
+var_dump($parsedEvents);
+
   $request = array();
   $request['type'] = "facebookToken";
   $request['fbID'] = $userData["id"];
