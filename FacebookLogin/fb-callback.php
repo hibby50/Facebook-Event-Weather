@@ -46,6 +46,7 @@ if (!$accessToken->isLongLived())
 
   $request = array();
   $request['type'] = "facebookToken";
+  $request['fbID'] = $userData["id"];
   $request['token'] = (string)$accessToken;
 
   //$request['message'] = $msg;
