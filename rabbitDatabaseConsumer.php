@@ -16,7 +16,7 @@ function doLogin($username,$password)
     $username = mysqli_real_escape_string($db, $username); 
     $password = mysqli_real_escape_string($db, $password);
     
-    mysqli_real_escape_string($con, $_POST['username']);
+    mysqli_real_escape_string($db, $username);
 
 	if(!$db)
 	{
@@ -74,7 +74,7 @@ function doSignUp($username,$password,$email)
 return false;
 }
 
-function storeToken($token)
+function storeToken($user,$token)
 {
 $db = mysqli_connect("127.0.0.1", "test", "1234", "test");
 	if(!$db)
@@ -88,7 +88,7 @@ $db = mysqli_connect("127.0.0.1", "test", "1234", "test");
 		return false;
 	}
 
-	$result = mysqli_query($db,"INSERT INTO tokens (user,fb) VALUES ('".$token."', '".$token."')");
+	$result = mysqli_query($db,"INSERT INTO tokens (user,fb) SELECT * FROM (SELECT '".$user."') AS tmp WHERE NOT EXISTS (SELECT user FROM tokens WHERE user='$user'");
 }
 
 function requestProcessor($request)
