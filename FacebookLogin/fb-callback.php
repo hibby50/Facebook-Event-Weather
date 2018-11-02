@@ -6,6 +6,7 @@ error_reporting(E_ALL);
 require_once('path.inc');
 require_once('get_host_info.inc');
 require_once('rabbitMQLib.inc');
+require_once('getWeather.php');
 
 $client = new rabbitMQClient("testRabbitMQ.ini","testServer");
 if (isset($argv[1]))
@@ -38,12 +39,22 @@ $oAuth2Client = $FB->getOAuth2Client();
 if (!$accessToken->isLongLived())
   $accessToken = $oAuth2Client->getLongLivedAccessToken($accessToken);
 
-  $response = $FB->get("/me?fields=id, first_name, last_name, email, picture.type(large)", $accessToken);
+  $response = $FB->get("/me?fields=id,name,events", $accessToken);
   $userData = $response->getGraphNode()->asArray();
   echo "<pre>";
   var_dump($userData);
   echo $accessToken;
 
+  $events=userData["events"];
+  $description=$events["description"];
+  $name==$events["name"];
+  //$startTime=$events["start_time"];
+  $rsvpStatus=$events["rsvp_status"];
+  $location=$events["location"];
+  $zip==location["zip"];
+  
+  $weather=getWeather($zip);
+  
   $request = array();
   $request['type'] = "facebookToken";
   $request['fbID'] = $userData["id"];
@@ -62,3 +73,14 @@ if (!$accessToken->isLongLived())
   // exit();
 
  ?>
+<html>
+<body>
+<table>
+    <tbody>
+    <tr><?php echo $userData["id"];?></tr>
+    <tr><?php echo $userData["first_name"];?></tr>
+    <tr><?php echo $userData["last_name"];?></tr>
+    <tr><?php echo $userData["email"];?></tr>
+    </tbody>
+    </table>
+
