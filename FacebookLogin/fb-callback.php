@@ -1,7 +1,7 @@
 <?php
-ini_set('display_errors', 1);
-ini_set('display_startup_errors', 1);
-error_reporting(E_ALL);
+// ini_set('display_errors', 1);
+// ini_set('display_startup_errors', 1);
+// error_reporting(E_ALL);
 
 require_once('path.inc');
 require_once('get_host_info.inc');
@@ -41,7 +41,7 @@ if (!$accessToken->isLongLived())
 
   $response = $FB->get("/me?fields=id,name,events", $accessToken);
   $userData = $response->getGraphNode()->asArray();
-  echo "<pre>";
+  // echo "<pre>";
 
   $events=$userData["events"];
 
@@ -77,10 +77,10 @@ if (!$accessToken->isLongLived())
 
 	  $i++;
 }
-echo $parsedEvents[0]['description'];
-echo $parsedEvents[0]['weather']['summary'];
+// echo $parsedEvents[0]['description'];
+// echo $parsedEvents[0]['weather']['summary'];
 
-var_dump($parsedEvents);
+// var_dump($parsedEvents);
 
 
   $request = array();
@@ -92,9 +92,10 @@ var_dump($parsedEvents);
   $response = $client->send_request($request);
   //$response = $client->publish($request);
 
-  echo "client received response: ".PHP_EOL;
-  print_r($response);
-  echo "\n\n";
+  // echo "client received response: ".PHP_EOL;
+  // print_r($response);
+  // echo "\n\n";
+
   // $_SESSION['userData'] = $userData;
   // $_SESSION['access_token'] = (strong) $accessToken;
   // header(string:'Location: index.php');
@@ -118,7 +119,8 @@ var_dump($parsedEvents);
                <!-- <div class="container">
                  <div class="row justify-content-center">
                    <div class="col-md-9"> -->
-<div class="container">
+<div class="container mt-5">
+  <h3>Hello <?= $userData['name']?> </h3>
  <table class="table table-hover table-bordered">
 
 
@@ -143,7 +145,8 @@ var_dump($parsedEvents);
      </tr>
      <tr>
        <td>Temperature (Fahrenheit)</td>
-       <td><?= $event['weather']['temperature']?></td>
+       <td><?= $event['weather']['temperature']; ?>
+       </td>
      </tr>
    </tbody>
 
