@@ -60,16 +60,18 @@ if (!$accessToken->isLongLived())
 	  $zip= $location["zip"];
 
 	  $startTime=$info["start_time"];
-	  $startTime = $startTime->format('Y-m-d H:i:s');
+
+	  $humanStartTime = $startTime->format('Y-m-d H:i:s T');//[YYYY]-[MM]-[DD][HH]:[MM]:[SS][timezone]
+	  $unixStartTime = $startTime->format('U');
 	  
 	  if (isset($zip)){
 
-	  	$weather=getWeather($latitude,$longitude);
+	  	$weather=getWeather($latitude,$longitude,$unixStartTime);
 	}else{
 	$weather="No Location Data Available";
 	}
 
-	  $currEvent = array("description"=>$description,"name"=>$name,"startTime"=>$startTime,"rsvpStatus"=>$rsvpStatus,"latitude"=>$latitude,"longitude"=>$longitude,"zip"=>$zip,"weather"=>$weather);
+	  $currEvent = array("description"=>$description,"name"=>$name,"startTime"=>$humanStartTime,"rsvpStatus"=>$rsvpStatus,"latitude"=>$latitude,"longitude"=>$longitude,"zip"=>$zip,"weather"=>$weather);
 
 	  array_push($parsedEvents,$currEvent);
 

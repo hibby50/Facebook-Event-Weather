@@ -1,8 +1,8 @@
 <?php
 
-function getWeather($latitude,$longitude)
+function getWeather($latitude,$longitude,$time)
 {
-$url="https://api.darksky.net/forecast/2054752949de3d214dd2451d237f886d/".$latitude.",".$longitude;
+$url="https://api.darksky.net/forecast/2054752949de3d214dd2451d237f886d/".$latitude.",".$longitude.",".$time."?exclude=[daily,alerts,currently,minutely,daily,flags]";
 
 //  Initiate curl
 $ch = curl_init();
@@ -16,6 +16,12 @@ $result=curl_exec($ch);
 curl_close($ch);
 
 // Will dump a beauty json :3
-return(json_decode($result, true));
+$data = (json_decode($result, true));
+
+$startHour = $data["hourly"]["data"][0];
+
+$startHour['daySummary'] = $data["hourly"]["summary"];
+
+return $startHour;
 }
 ?>
