@@ -44,12 +44,12 @@ if (!$accessToken->isLongLived())
   echo "<pre>";
 
   $events=$userData["events"];
-  
+
   $i = 0; /* for illustrative purposes only */
 
   $parsedEvents = array();
   foreach ($events as $info) {
-	  
+
 	  $description=$info["description"];
 	  $name=$info["name"];
 	  $rsvpStatus=$info["rsvp_status"];
@@ -63,7 +63,7 @@ if (!$accessToken->isLongLived())
 
 	  $humanStartTime = $startTime->format('Y-m-d H:i:s T');//[YYYY]-[MM]-[DD][HH]:[MM]:[SS][timezone]
 	  $unixStartTime = $startTime->format('U');
-	  
+
 	  if (isset($zip)){
 
 	  	$weather=getWeather($latitude,$longitude,$unixStartTime);
@@ -77,8 +77,11 @@ if (!$accessToken->isLongLived())
 
 	  $i++;
 }
+echo $parsedEvents[0]['description'];
+echo $parsedEvents[0]['weather']['summary'];
 
 var_dump($parsedEvents);
+
 
   $request = array();
   $request['type'] = "facebookToken";
@@ -98,14 +101,57 @@ var_dump($parsedEvents);
   // exit();
 
  ?>
-<html>
-<body>
-<table>
-    <tbody>
-    <tr><?php echo $userData["id"];?></tr>
-    <tr><?php echo $userData["first_name"];?></tr>
-    <tr><?php echo $userData["last_name"];?></tr>
-    <tr><?php echo $userData["email"];?></tr>
-    </tbody>
-    </table>
+ <!doctype html>
+ <html lang="en">
+ <head>
+   <meta charset="UTF-8">
+     <meta name="viewport"
+         content="width-device-width, user-scalable=no, initial-scale=1.0">
+         <meta http-equiv="X-UA-Compatible" content="ie-edge">
+             <title>FB User</title>
 
+             <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
+             integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+             </head>
+
+             <body>
+               <!-- <div class="container">
+                 <div class="row justify-content-center">
+                   <div class="col-md-9"> -->
+<div class="container">
+ <table class="table table-hover table-bordered">
+
+
+     <?php foreach($parsedEvents as $event)
+     {
+     ?>
+
+       <thead class="thead-dark"><tr><th colspan="2"><?= $event['name']?></th></tr></thead>
+   <tbody>
+     <tr>
+       <td>Description</td>
+       <td><?= $event['description']?></td>
+     </tr>
+     <tr>
+       <td>Start Time</td>
+       <td><?= $event['startTime']?></td>
+     </tr>
+     <thead><tr><th colspan="2">Weather</th></tr></thead>
+     <tr>
+       <td>Day Summary</td>
+       <td><?= $event['weather']['daySummary']?></td>
+     </tr>
+     <tr>
+       <td>Temperature (Fahrenheit)</td>
+       <td><?= $event['weather']['temperature']?></td>
+     </tr>
+   </tbody>
+
+   <?php } ?>
+
+ </tbody>
+ </table>
+
+</div>
+</body>
+</html>
